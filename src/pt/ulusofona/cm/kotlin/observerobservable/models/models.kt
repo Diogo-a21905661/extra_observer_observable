@@ -5,7 +5,7 @@ import pt.ulusofona.cm.kotlin.observerobservable.exceptions.*
 
 data class Noticia(var titulo: String, var corpo: String) {}
 
-class CorreioDaLusofona(var maxLeitores: Int, private var noticias: MutableList<Noticia>) {
+class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia>) {
     private var leitores: MutableList<OnNoticiaListener> = mutableListOf()
 
     fun adicionarLeitor(leitor: OnNoticiaListener) {
@@ -20,7 +20,7 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: MutableList<
         }
     }
 
-    private fun notificarLeitores() : MutableList<Noticia> {
+    private fun notificarLeitores() : List<Noticia> {
         return noticias
     }
 
@@ -29,7 +29,7 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: MutableList<
     }
 }
 
-class GeradorNumerico(var maxLeitores: Int, private var numeros: MutableList<Int>) {
+class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
     private var leitores: MutableList<OnNumeroListener> = mutableListOf()
 
     fun adicionarLeitor(leitor: OnNumeroListener) {
@@ -44,7 +44,7 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: MutableList<Int
         }
     }
 
-    private fun notificarLeitores() : MutableList<Int> {
+    private fun notificarLeitores() : List<Int> {
         return numeros
     }
 
@@ -72,7 +72,7 @@ abstract class Leitor(var nome: String) : Registavel {
 }
 
 class LeitorPar(nome: String) : Leitor(nome), OnNumeroListener {
-    private val numeros : MutableList<Int> = mutableListOf()
+    val numeros : MutableList<Int> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
         numeros.add(num)
@@ -84,7 +84,7 @@ class LeitorPar(nome: String) : Leitor(nome), OnNumeroListener {
 }
 
 class LeitorImpar(nome: String) : Leitor(nome), OnNumeroListener {
-    private val numeros : MutableList<Int> = mutableListOf()
+    val numeros : MutableList<Int> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
         numeros.add(num)
