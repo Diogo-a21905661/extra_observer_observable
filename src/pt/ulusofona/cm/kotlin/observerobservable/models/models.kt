@@ -10,11 +10,13 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia
 
     fun adicionarLeitor(leitor: OnNoticiaListener) {
         leitores.add(leitor)
+        leitor.leitorAdicionadoComSucesso()
     }
 
     fun removerLeitor(leitor: OnNoticiaListener) {
         if (leitores.contains(leitor)) {
             leitores.remove(leitor)
+            leitor.leitorRemovidoComSucesso()
         } else {
             throw LeitorInexistenteException()
         }
@@ -34,11 +36,13 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
 
     fun adicionarLeitor(leitor: OnNumeroListener) {
         leitores.add(leitor)
+        leitor.leitorAdicionadoComSucesso()
     }
 
     fun removerLeitor(leitor: OnNumeroListener) {
         if (leitores.contains(leitor)) {
             leitores.remove(leitor)
+            leitor.leitorRemovidoComSucesso()
         } else {
             throw LeitorInexistenteException()
         }
