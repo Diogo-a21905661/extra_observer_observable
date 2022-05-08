@@ -27,8 +27,12 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia
     }
 
     //Testing notificar leitores in news
-    private fun notificarLeitores() : List<Noticia> {
-        return noticias
+    private fun notificarLeitores() {
+        for (noticia in noticias) {
+            for (leitor in leitores) {
+                leitor.onReceiveNoticia(noticia)
+            }
+        }
     }
 
     fun iniciar() {
@@ -60,12 +64,7 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
     private fun notificarLeitores() {
         for (numero in numeros) {
             for (leitor in leitores) {
-                //Will have to better this after
-                if (numero % 2 == 0) {
-                    leitor.onReceiveNumero(numero)
-                } else {
-                    leitor.onReceiveNumero(numero)
-                }
+                leitor.onReceiveNumero(numero)
             }
         }
     }
@@ -97,7 +96,9 @@ class LeitorPar(nome: String) : Leitor(nome), OnNumeroListener {
     val numeros : MutableList<Int> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
-        numeros.add(num)
+        if (num % 2 == 0) {
+            numeros.add(num)
+        }
     }
 
     fun imprimeNumeros() : String {
@@ -109,7 +110,9 @@ class LeitorImpar(nome: String) : Leitor(nome), OnNumeroListener {
     val numeros : MutableList<Int> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
-        numeros.add(num)
+        if (num % 2 != 0) {
+            numeros.add(num)
+        }
     }
 
     fun imprimeNumeros() : String {
