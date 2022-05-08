@@ -87,8 +87,8 @@ class LeitorImpar(nome: String) : Leitor(nome), OnNumeroListener {
 }
 
 class Bufo(nome: String) : Leitor(nome), OnNumeroListener, OnNoticiaListener {
-    private val numeros : MutableList<Int> = mutableListOf()
-    private val noticias : MutableList<Noticia> = mutableListOf()
+    val numeros : MutableList<Int> = mutableListOf()
+    val noticias : MutableList<Noticia> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
         numeros.add(num)
