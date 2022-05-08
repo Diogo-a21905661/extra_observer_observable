@@ -9,8 +9,12 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia
     private var leitores: MutableList<OnNoticiaListener> = mutableListOf()
 
     fun adicionarLeitor(leitor: OnNoticiaListener) {
-        leitores.add(leitor)
-        leitor.leitorAdicionadoComSucesso()
+        if (leitores.size == maxLeitores) {
+            throw LimiteDeLeitoresAtingidoException("CorreioDaLusofona atingiu o número máximo de leitores: $maxLeitores")
+        } else {
+            leitores.add(leitor)
+            leitor.leitorAdicionadoComSucesso()
+        }
     }
 
     fun removerLeitor(leitor: OnNoticiaListener) {
@@ -22,6 +26,7 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia
         }
     }
 
+    //Testing notificar leitores in news
     private fun notificarLeitores() : List<Noticia> {
         return noticias
     }
@@ -35,8 +40,12 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
     private var leitores: MutableList<OnNumeroListener> = mutableListOf()
 
     fun adicionarLeitor(leitor: OnNumeroListener) {
-        leitores.add(leitor)
-        leitor.leitorAdicionadoComSucesso()
+        if (leitores.size == maxLeitores) {
+            throw LimiteDeLeitoresAtingidoException("GeradorNumerico atingiu o número máximo de leitores: $maxLeitores")
+        } else {
+            leitores.add(leitor)
+            leitor.leitorAdicionadoComSucesso()
+        }
     }
 
     fun removerLeitor(leitor: OnNumeroListener) {
@@ -48,11 +57,15 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
         }
     }
 
-    //private fun notificarLeitores() : List<Int> { (previous version)
     private fun notificarLeitores() {
         for (numero in numeros) {
             for (leitor in leitores) {
-                leitor.onReceiveNumero(numero)
+                //Will have to better this after
+                if (numero % 2 == 0) {
+                    leitor.onReceiveNumero(numero)
+                } else {
+                    leitor.onReceiveNumero(numero)
+                }
             }
         }
     }
