@@ -1,10 +1,11 @@
 package pt.ulusofona.cm.kotlin.observerobservable.models
 
 import pt.ulusofona.cm.kotlin.observerobservable.interfaces.*
+import pt.ulusofona.cm.kotlin.observerobservable.exceptions.*
 
 data class Noticia(var titulo: String, var corpo: String) {}
 
-class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia>) {
+class CorreioDaLusofona(var maxLeitores: Int, private var noticias: MutableList<Noticia>) {
     private var leitores: MutableList<OnNoticiaListener> = mutableListOf()
 
     fun adicionarLeitor(leitor: OnNoticiaListener) {
@@ -12,10 +13,14 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia
     }
 
     fun removerLeitor(leitor: OnNoticiaListener) {
-        leitores.remove(leitor)
+        if (leitores.contains(leitor)) {
+            leitores.remove(leitor)
+        } else {
+            throw LeitorInexistenteException()
+        }
     }
 
-    private fun notificarLeitores() : List<Noticia> {
+    private fun notificarLeitores() : MutableList<Noticia> {
         return noticias
     }
 
@@ -24,7 +29,7 @@ class CorreioDaLusofona(var maxLeitores: Int, private var noticias: List<Noticia
     }
 }
 
-class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
+class GeradorNumerico(var maxLeitores: Int, private var numeros: MutableList<Int>) {
     private var leitores: MutableList<OnNumeroListener> = mutableListOf()
 
     fun adicionarLeitor(leitor: OnNumeroListener) {
@@ -32,10 +37,14 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
     }
 
     fun removerLeitor(leitor: OnNumeroListener) {
-        leitores.remove(leitor)
+        if (leitores.contains(leitor)) {
+            leitores.remove(leitor)
+        } else {
+            throw LeitorInexistenteException()
+        }
     }
 
-    private fun notificarLeitores() : List<Int> {
+    private fun notificarLeitores() : MutableList<Int> {
         return numeros
     }
 
@@ -63,26 +72,26 @@ abstract class Leitor(var nome: String) : Registavel {
 }
 
 class LeitorPar(nome: String) : Leitor(nome), OnNumeroListener {
-    private val numerosPares : MutableList<Int> = mutableListOf()
+    private val numeros : MutableList<Int> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
-        numerosPares.add(num)
+        numeros.add(num)
     }
 
     fun imprimeNumeros() : String {
-        return "$nome leu os seguintes numeros pares: $numerosPares"
+        return "$nome leu os seguintes numeros pares: $numeros"
     }
 }
 
 class LeitorImpar(nome: String) : Leitor(nome), OnNumeroListener {
-    private val numerosImpares : MutableList<Int> = mutableListOf()
+    private val numeros : MutableList<Int> = mutableListOf()
 
     override fun onReceiveNumero(num: Int) {
-        numerosImpares.add(num)
+        numeros.add(num)
     }
 
     fun imprimeNumeros() : String {
-        return "$nome leu os seguintes numeros impares: $numerosImpares"
+        return "$nome leu os seguintes numeros impares: $numeros"
     }
 }
 
