@@ -48,8 +48,13 @@ class GeradorNumerico(var maxLeitores: Int, private var numeros: List<Int>) {
         }
     }
 
-    private fun notificarLeitores() : List<Int> {
-        return numeros
+    //private fun notificarLeitores() : List<Int> { (previous version)
+    private fun notificarLeitores() {
+        for (numero in numeros) {
+            for (leitor in leitores) {
+                leitor.onReceiveNumero(numero)
+            }
+        }
     }
 
     fun iniciar() {
